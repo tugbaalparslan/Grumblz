@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from formatters.formatter import json_user_object
+from formatters.formatter import format_user_to_json
 from models.user import UserModel
 
 
@@ -38,7 +38,7 @@ class User(Resource):
         if is_valid:
             new_user = UserModel(email, **data)
             new_user.save_to_db()
-            return json_user_object(new_user)
+            return format_user_to_json(new_user)
         else:
             return {"message": error_message}, 400
 

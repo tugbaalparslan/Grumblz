@@ -1,4 +1,4 @@
-def json_user_object(user):
+def format_user_to_json(user):
     return {
         "email": user.email,
         "name": user.name,
