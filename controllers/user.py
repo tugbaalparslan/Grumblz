@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-
+from formatters.formatter import format_user_to_json
 from models.user import UserModel
 
 
@@ -28,9 +28,20 @@ class User(Resource):
                         )
 
     def post(self, email):
+
+        if UserModel.find_by_email(email):
+            return {"message": "A user already exists with the same email adress, use a different one!"}, 400
+
         data = User.parser.parse_args()
-        new_user = UserModel(email, **data)
-        new_user.save_to_db()
+        is_valid, error_message = UserModel.check_if_data_has_valid_format(email, **data)
+
+        if is_valid:
+            new_user = UserModel(email, **data)
+            new_user.save_to_db()
+            return format_user_to_json(new_user)
+        else:
+            return {"message": error_message}, 400
+
 
     def get(self, email):
         pass

@@ -1,6 +1,7 @@
 from db import db
 
 
+
 class UserModel(db.Model):
     __tablename__ = 'users'
 
@@ -21,6 +22,17 @@ class UserModel(db.Model):
     @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def check_if_data_has_valid_format(cls, email, name, last_name, phone, gender):
+        error_message = {}
+        is_valid = True
+
+        if not phone.isnumeric() or len(phone) != 10:
+            is_valid = False
+            error_message["phone"] = "Phone can be only 10 digits and all numeric!"
+
+        return is_valid, error_message
 
     def save_to_db(self):
         db.session.add(self)
