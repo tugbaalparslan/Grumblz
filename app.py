@@ -17,10 +17,11 @@ def create_tables():
     db.create_all()  # SQLAlchemy creates tables, import from resources ultimately from import models
 
 
+
 # jwt = JWT(app, authenticate, identity)  # IMPORTANT!: JW Extension automatically creates /auth resource with this line of code
 
-api.add_resource(User, '/user/<string:email>')
 
+api.add_resource(User, '/user/<string:email>')
 
 if __name__ == '__main__':
     from db import db
