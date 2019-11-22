@@ -21,7 +21,6 @@ def create_tables():
 
 api.add_resource(User, '/user/<string:email>')
 
-
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
