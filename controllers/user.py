@@ -44,7 +44,15 @@ class User(Resource):
 
 
     def get(self, email):
-        pass
+        user = UserModel.find_by_email(email)
+
+        if not user:
+            return {"message": "No such user!"}, 404
+        else:
+            return format_user_to_json(user)
+
+
+
 
     def put(self, email):
         pass
