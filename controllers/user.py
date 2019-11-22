@@ -49,7 +49,7 @@ class User(Resource):
         if user:
             return format_user_to_json(user)
 
-        return {"message": "No such user!"}
+        return {"message": "No such user!"}, 404
 
 
     def put(self, email):
