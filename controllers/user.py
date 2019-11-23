@@ -57,3 +57,14 @@ class User(Resource):
     def put(self, email):
         pass
 
+    def delete(self, email):
+        user = UserModel.find_by_email(email)
+
+        if not user:
+            return {"message": "No such user associated with this email address!"}, 404
+
+        user.delete_from_db()
+        return {"message": "user deleted!"}
+
+
+
