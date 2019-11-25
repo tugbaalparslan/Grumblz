@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
+from controllers.company import Company
 from controllers.user import User
 
 
@@ -22,6 +23,8 @@ def create_tables():
 
 
 api.add_resource(User, '/user/<string:email>')
+
+api.add_resource(Company, '/company/<string:us_employer_id>')
 
 if __name__ == '__main__':
     from db import db

@@ -45,7 +45,6 @@ class User(Resource):
         else:
             return {"message": error_message}, 400
 
-
     def get(self, email):
         user = UserModel.find_by_email(email)
 
@@ -73,13 +72,6 @@ class User(Resource):
             return {"message": "An error occurred while updating the user!"}, 500
 
         return format_user_to_json(user)
-
-
-
-
-
-
-
 
     def delete(self, email):
         user = UserModel.find_by_email(email)

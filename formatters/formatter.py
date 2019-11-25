@@ -6,3 +6,14 @@ def format_user_to_json(user):
         "phone": user.phone,
         "gender": user.gender
     }
+
+
+def format_company_to_json(company):
+    return {
+        "us_employer_id": company.us_employer_id,
+        "company_name": company.company_name,
+        "business_area": company.business_area,
+        "number_of_employees": company.number_of_employees,
+        "phone": company.phone,
+        "address": company.address
+    }
