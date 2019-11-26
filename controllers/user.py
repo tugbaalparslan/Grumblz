@@ -83,4 +83,10 @@ class User(Resource):
         return {"message": "user deleted!"}
 
 
+class UserList(Resource):
+    def get(self):
+        return {'users': list(map(lambda x: format_user_to_json(x), UserModel.query.all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+
+
+
 

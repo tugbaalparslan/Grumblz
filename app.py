@@ -1,9 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 
-from controllers.company import Company
-from controllers.user import User
-
+from controllers.company import Company, CompanyList
+from controllers.user import User, UserList
 
 app = Flask(__name__)
 
@@ -17,14 +16,14 @@ api = Api(app)
 def create_tables():
     db.create_all()  # SQLAlchemy creates tables, import from resources ultimately from import models
 
-
-
 # jwt = JWT(app, authenticate, identity)  # IMPORTANT!: JW Extension automatically creates /auth resource with this line of code
 
 
 api.add_resource(User, '/user/<string:email>')
-
+api.add_resource(UserList, '/users/')
 api.add_resource(Company, '/company/<string:us_employer_id>')
+api.add_resource(CompanyList, '/companies/')
+
 
 if __name__ == '__main__':
     from db import db
