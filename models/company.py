@@ -7,7 +7,8 @@ from db import db
 #     health_care = 'health care'
 #     education = 'education'
 
-class CompanyModel(db.Model):
+
+class CompanyModel(db.Model):  # CompanyModel objects are mapped to the DB rows - can be inserted/updated/.. etc
     __tablename__ = 'company'
 
     id = db.Column(db.Integer, primary_key=True)

@@ -85,7 +85,11 @@ class User(Resource):
 
 class UserList(Resource):
     def get(self):
-        return {'users': list(map(lambda x: format_user_to_json(x), UserModel.query.all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        # Code below does the same thing using a lambda function instead of list comprehension  --- LIST COMPREHENSION
+        return {'users': [format_user_to_json(user) for user in UserModel.query.all()]}
+        # map() function returns a list of the results after applying the given function to     --- LAMBDA & MAP
+        # each item of a given iterable (list, tuple etc.):
+        # return {'users': list(map(lambda x: format_user_to_json(x), UserModel.query.all()))}
 
 
 

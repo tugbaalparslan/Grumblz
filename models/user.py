@@ -1,11 +1,11 @@
 from db import db
 
 
-class UserModel(db.Model):
+class UserModel(db.Model):  # UserModel objects are mapped to the DB rows - can be inserted/updated/.. etc
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(80))
+    id = db.Column(db.Integer, primary_key=True)  # primary key is unique and indexed, auto-increments
+    email = db.Column(db.String(80))  # this variable names must match the object variables -- self.email
     name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
     phone = db.Column(db.String(11))
@@ -33,7 +33,7 @@ class UserModel(db.Model):
 
         return is_valid, error_message
 
-    def save_to_db(self):
+    def save_to_db(self):  # used for update and insert - upsert
         db.session.add(self)
         db.session.commit()
 
