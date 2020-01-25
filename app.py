@@ -1,6 +1,10 @@
 from flask import Flask
 from flask_restful import Api
 
+# Controllers are imported to:
+# 1. create tables (table details are in Models, though.
+# Controllers import models. So no need to import models again.
+# 2. To add resource endpoints to api
 from controllers.company import Company, CompanyList
 from controllers.user import User, UserList
 

@@ -62,7 +62,7 @@ class Company(Resource):
         company = CompanyModel.find_by_us_employer_id(us_employer_id)
 
         if not company:
-            return {"message": "No such company registered with this employer ID!"}, 404
+            return {"message": "No such company registered with this employer ID!"}, 404  # returns a tuple: (body, status code), (body:dictionary, status code: integer - default 200)
         else:
             return format_company_to_json(company)
 
