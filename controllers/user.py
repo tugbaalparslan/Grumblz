@@ -16,6 +16,11 @@ class User(Resource):
                         required=True,
                         help="This field cannot be left blank!"
                         )
+    parser.add_argument('password',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
     parser.add_argument('phone',
                         type=str,
                         required=True,
@@ -27,6 +32,7 @@ class User(Resource):
                         help="This field cannot be left blank!"
                         )
 
+    # @jwt_required
     def post(self, email):
 
         if UserModel.find_by_email(email):
@@ -44,7 +50,7 @@ class User(Resource):
                 return {"message": "An error occurred while creating the user!"}, 500
         else:
             return {"message": error_message}, 400
-
+    # @jwt_required
     def get(self, email):
         user = UserModel.find_by_email(email)
 
@@ -63,6 +69,7 @@ class User(Resource):
         data = User.parser.parse_args()
         user.name = data['name']
         user.last_name = data['last_name']
+        user.password = data['password']
         user.phone = data['phone']
         user.gender = data['gender']
 

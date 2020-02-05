@@ -3,6 +3,7 @@ def format_user_to_json(user):
         "email": user.email,
         "name": user.name,
         "last_name": user.last_name,
+        "password": user.password,
         "phone": user.phone,
         "gender": user.gender
     }

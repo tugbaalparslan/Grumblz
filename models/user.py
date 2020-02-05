@@ -8,13 +8,15 @@ class UserModel(db.Model):  # UserModel objects are mapped to the DB rows - can 
     email = db.Column(db.String(80))  # this variable names must match the object variables -- self.email
     name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
+    password = db.Column(db.String(80))
     phone = db.Column(db.String(11))
     gender = db.Column(db.String(10))
 
-    def __init__(self, email, name, last_name, phone, gender):
+    def __init__(self, email, name, last_name, password, phone, gender):
         self.email = email
         self.name = name
         self.last_name = last_name
+        self.password = password
         self.phone = phone
         self.gender = gender
 
@@ -23,7 +25,11 @@ class UserModel(db.Model):  # UserModel objects are mapped to the DB rows - can 
         return cls.query.filter_by(email=email).first()
 
     @classmethod
-    def check_if_data_has_valid_format(cls, email, name, last_name, phone, gender):
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def check_if_data_has_valid_format(cls, email, name, last_name, password, phone, gender):
         error_message = {}
         is_valid = True
 
