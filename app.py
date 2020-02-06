@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 # app.secret_key gotta be long, secure and secret. not to be exposed in production.
 # So, I created an environment variable called "CUSTOM_APP_SECRET_KEY". Api reads the value from there.
+# app.secret_key is used to sign the token to make sure it won't be tampered. if tampered JWT Extension will detect it.
 app.secret_key = os.environ.get("CUSTOM_APP_SECRET_KEY")
 # app.secret_key = 'tugba'  # ABOVE CODE implement later -- today is the day!
 api = Api(app)

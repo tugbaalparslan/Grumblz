@@ -16,9 +16,9 @@ def authenticate(user_email, password):
         return found_user
 
 
-# identity method extracts user id from the JW token sent with the request by client to see if the token and
-# the user id is valid. If so the request will be processed. Otherwise won't. (Throws 401 Err Code if not valid or
-# the token signature is expired) This is the authorization part.
+# identity method extracts user id from the JW token sent along with client's request to see if the token
+# (app.secret_key plays part in here) and the user id is valid. If valid, the request will be processed.
+# Otherwise won't be. (Throws 401 error if not valid or the token signature has expired) This is the authorization part.
 def identity(payload):
     user_id = payload['identity']
     found_user = UserModel.find_by_id(user_id)
