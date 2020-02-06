@@ -52,7 +52,7 @@ class Company(Resource):
             try:
                 format_company_to_json(new_company)
                 new_company.save_to_db()
-                return format_company_to_json(new_company)
+                return format_company_to_json(new_company), 201
             except:
                 return {"message": "An error occurred while creating the user!"}, 500
         else:

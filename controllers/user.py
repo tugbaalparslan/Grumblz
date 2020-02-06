@@ -33,7 +33,6 @@ class User(Resource):
                         help="This field cannot be left blank!"
                         )
 
-    #@jwt_required
     def post(self, email):
 
         if UserModel.find_by_email(email):
@@ -46,7 +45,7 @@ class User(Resource):
             new_user = UserModel(email, **data)
             try:
                 new_user.save_to_db()
-                return format_user_to_json(new_user)
+                return format_user_to_json(new_user), 201
             except:
                 return {"message": "An error occurred while creating the user!"}, 500
         else:

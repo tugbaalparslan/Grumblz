@@ -1,5 +1,5 @@
-from datetime import timedelta
-import os
+from datetime import timedelta  # using to set the expiration period of Jason Web Token
+import os  # using to access the environment variables -  eg. CUSTOM_APP_SECRET_KEY
 
 from flask import Flask
 from flask_restful import Api
