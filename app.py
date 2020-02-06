@@ -1,4 +1,5 @@
 from datetime import timedelta
+import os
 
 from flask import Flask
 from flask_restful import Api
@@ -20,7 +21,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datagrumblz.db'
 # still SQLAlchemy's main library has its own tracking features on.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
-app.secret_key = 'tugba'  # will implement later -- today is the day!
+print(os.environ.get("CUSTOM_APP_SECRET_KEY"))
+app.secret_key = os.environ.get("COMMAND_MODE")
+# app.secret_key = 'tugba'  # will implement later -- today is the day!
 api = Api(app)
 
 
@@ -32,7 +35,7 @@ def create_tables():
 # changing the default /auth endpoint to /login. if we don't specify anything, it will be /auth
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 # changing the default "username" parameter to "email". email will be sent in requests's body -- update postman!
-app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
+app.config['JWT_AUTH_USERNAME_KEY'] = 'user_email'
 # config JWT to expire within 30 minutes, default is 5 minutes = 300 sc
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800)
 

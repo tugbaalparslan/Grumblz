@@ -1,3 +1,4 @@
+from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
 from formatters.formatter import format_user_to_json
 from models.user import UserModel
@@ -32,7 +33,7 @@ class User(Resource):
                         help="This field cannot be left blank!"
                         )
 
-    # @jwt_required
+    #@jwt_required
     def post(self, email):
 
         if UserModel.find_by_email(email):
@@ -50,6 +51,7 @@ class User(Resource):
                 return {"message": "An error occurred while creating the user!"}, 500
         else:
             return {"message": error_message}, 400
+
     # @jwt_required
     def get(self, email):
         user = UserModel.find_by_email(email)
@@ -91,6 +93,7 @@ class User(Resource):
 
 
 class UserList(Resource):
+    @jwt_required()
     def get(self):
         # Code below does the same thing using a lambda function instead of list comprehension  --- LIST COMPREHENSION
         return {'users': [format_user_to_json(user) for user in UserModel.query.all()]}
