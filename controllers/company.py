@@ -100,5 +100,6 @@ class Company(Resource):
 
 class CompanyList(Resource):
     def get(self):
-        return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.query.all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        return {'companies': [format_company_to_json(x) for x in CompanyModel.find_all()]}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        # return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.find_all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
 

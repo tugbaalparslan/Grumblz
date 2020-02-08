@@ -20,6 +20,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datagrumblz.db'
 # Turns off Flask-SQLALchemy's change tracking feature for better performance,
 # still SQLAlchemy's main library has its own tracking features on.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Turn on the propogate exceptions - when flask throws exceptions it will be propagated to the user so user can have
+# a better understanding of the exception's details, otherwise it will be masked such as 500 - internal server error.
 app.config['PROPAGATE_EXCEPTIONS'] = True
 # app.secret_key gotta be long, secure and secret. not to be exposed in production.
 # So, I created an environment variable called "CUSTOM_APP_SECRET_KEY". Api reads the value from there.

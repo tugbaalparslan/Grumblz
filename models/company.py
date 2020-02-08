@@ -34,6 +34,10 @@ class CompanyModel(db.Model):  # CompanyModel objects are mapped to the DB rows 
         return cls.query.filter_by(us_employer_id=us_employer_id).first()
 
     @classmethod
+    def find_all(cls):
+        return cls.query.all()
+
+    @classmethod
     def check_if_data_has_valid_format(cls, us_employer_id, company_name, business_area, number_of_employees, phone, address):
         error_message = {}
         is_valid = True

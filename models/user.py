@@ -29,6 +29,10 @@ class UserModel(db.Model):  # UserModel objects are mapped to the DB rows - can 
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
+    def find_all(cls):
+        return cls.query.all()
+
+    @classmethod
     def check_if_data_has_valid_format(cls, email, name, last_name, password, phone, gender):
         error_message = {}
         is_valid = True
