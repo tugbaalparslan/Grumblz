@@ -52,7 +52,7 @@ class Company(Resource):
             try:
                 format_company_to_json(new_company)
                 new_company.save_to_db()
-                return format_company_to_json(new_company)
+                return format_company_to_json(new_company), 201
             except:
                 return {"message": "An error occurred while creating the user!"}, 500
         else:
@@ -62,7 +62,7 @@ class Company(Resource):
         company = CompanyModel.find_by_us_employer_id(us_employer_id)
 
         if not company:
-            return {"message": "No such company registered with this employer ID!"}, 404
+            return {"message": "No such company registered with this employer ID!"}, 404  # returns a tuple: (body, status code), (body:dictionary, status code: integer - default 200)
         else:
             return format_company_to_json(company)
 
@@ -100,5 +100,6 @@ class Company(Resource):
 
 class CompanyList(Resource):
     def get(self):
-        return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.query.all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        return {'companies': [format_company_to_json(x) for x in CompanyModel.find_all()]}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        # return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.find_all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
 

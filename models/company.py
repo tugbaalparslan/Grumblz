@@ -7,7 +7,8 @@ from db import db
 #     health_care = 'health care'
 #     education = 'education'
 
-class CompanyModel(db.Model):
+
+class CompanyModel(db.Model):  # CompanyModel objects are mapped to the DB rows - can be inserted/updated/.. etc
     __tablename__ = 'company'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +32,10 @@ class CompanyModel(db.Model):
     @classmethod
     def find_by_us_employer_id(cls, us_employer_id):
         return cls.query.filter_by(us_employer_id=us_employer_id).first()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
     @classmethod
     def check_if_data_has_valid_format(cls, us_employer_id, company_name, business_area, number_of_employees, phone, address):
