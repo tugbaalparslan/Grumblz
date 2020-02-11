@@ -1,7 +1,8 @@
 from db import db
 
 
-class UserModel(db.Model):  # UserModel objects are mapped to the DB rows - can be inserted/updated/.. etc
+# db is a SQLAlchemy object. UserModel objects are mapped to the DB rows - can be inserted/updated/.. etc
+class UserModel(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)  # primary key is unique and indexed, auto-increments

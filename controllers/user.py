@@ -1,7 +1,8 @@
-from flask_jwt import jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
 from flask_restful import Resource, reqparse
 from formatters.formatter import format_user_to_json
 from models.user import UserModel
+from werkzeug.security import safe_str_cmp
 
 
 class User(Resource):
@@ -92,13 +93,49 @@ class User(Resource):
 
 
 class UserList(Resource):
-    @jwt_required()
+    @jwt_required
     def get(self):
         # Code below does the same thing using a lambda function instead of list comprehension  --- LIST COMPREHENSION
         return {'users': [format_user_to_json(user) for user in UserModel.find_all()]}
         # map() function returns a list of the results after applying the given function to     --- LAMBDA & MAP
         # each item of a given iterable (list, tuple etc.):
         # return {'users': list(map(lambda x: format_user_to_json(x), UserModel.query.all()))}
+
+# With Flask_JWT_extended we need to create our login endpoint, however Flask_JWT created an auth endpoint automatically
+class UserLogin(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('email',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+    parser.add_argument('password',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank!"
+                        )
+
+    def post(self):
+        # get data from parser
+        data = self.parser.parse_args()
+        # find user in database
+        user = UserModel.find_by_email(data["email"])
+        # check password
+        if user and safe_str_cmp(user.password, data["password"]):
+            # now let's create access token
+            access_token = create_access_token(identity=user.id, fresh=True)
+            # create refresh token
+            refresh_token = create_refresh_token(identity=user.id)
+            return{
+                      "access_token": access_token,
+                      "refresh_token": refresh_token
+                  }, 200
+
+        return {"message": "Invalid Credentials!"}, 401  # Unauthorized response code
+
+
+
+
 
 
 

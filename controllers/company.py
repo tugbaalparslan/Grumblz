@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required, jwt_optional, get_jwt_identity
 from flask_restful import Resource, reqparse
 from formatters.formatter import format_company_to_json
 from models.company import CompanyModel
@@ -54,10 +55,11 @@ class Company(Resource):
                 new_company.save_to_db()
                 return format_company_to_json(new_company), 201
             except:
-                return {"message": "An error occurred while creating the user!"}, 500
+                return {"message": "An error occurred while creating the company!"}, 500
         else:
             return {"message": error_message}, 400
 
+    @jwt_required
     def get(self, us_employer_id):
         company = CompanyModel.find_by_us_employer_id(us_employer_id)
 
@@ -87,7 +89,7 @@ class Company(Resource):
 
         return format_company_to_json(company)
 
-    #
+    @jwt_required
     def delete(self, us_employer_id):
         company = CompanyModel.find_by_us_employer_id(us_employer_id)
 
@@ -99,7 +101,17 @@ class Company(Resource):
 
 
 class CompanyList(Resource):
+    @jwt_optional  # use whenever you would like to send restricted amount of data if the user is not logged in
     def get(self):
-        return {'companies': [format_company_to_json(x) for x in CompanyModel.find_all()]}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
-        # return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.find_all()))}  # map() function returns a list of the results after applying the given function to each item of a given iterable (list, tuple etc.)
+        companies = CompanyModel.find_all()
+        user_id = get_jwt_identity()
+        print(user_id)
+        if user_id:
+            return {'companies': [format_company_to_json(x) for x in companies]}, 200
+            # map() function returns a list of the results after applying the given function to
+            # each item of a given iterable (list, tuple etc.)
+            # return {'companies': list(map(lambda x: format_company_to_json(x), CompanyModel.find_all()))}
+        else:
+            return {"company names:": [company.company_name for company in companies],
+                    "message": "Log in to get more details of the company list!"}, 200
 
