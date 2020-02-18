@@ -10,7 +10,7 @@ from flask_jwt_extended import JWTManager
 # Controllers already import models. So no need to re-import.
 # 2. To add resource endpoints to api
 from controllers.company import Company, CompanyList
-from controllers.user import User, UserList, UserLogin
+from controllers.user import User, UserList, UserLogin, TokenRefresh
 
 app = Flask(__name__)
 
@@ -36,17 +36,27 @@ def create_tables():
     db.create_all()  # SQLAlchemy creates tables, import from resources ultimately from import models
 
 
-# config JWT to expire within X minutes, default is 5 minutes = 300 sc
-app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=300)
+# config JWT access token to expire within X minutes, default is 5 minutes = 300 sc
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=300)
+# config JWT refresh token to expire within X minutes, default is 5 minutes = 300 sc
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(seconds=300)
+
 
 # Link JWT with our app
 jwt = JWTManager(app)
+
+
+# This is the custom message we will send when the token expires
+@jwt.expired_token_loader
+def expired_token_callback():
+    return {"error": "token_expired", "description": "The token has expired."}, 401
 
 api.add_resource(User, '/user/<string:email>')
 api.add_resource(UserList, '/users/')
 api.add_resource(Company, '/company/<string:us_employer_id>')
 api.add_resource(CompanyList, '/companies/')
 api.add_resource(UserLogin, "/login")
+api.add_resource(TokenRefresh, "/refresh")
 
 
 if __name__ == '__main__':

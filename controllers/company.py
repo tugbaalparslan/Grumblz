@@ -105,7 +105,6 @@ class CompanyList(Resource):
     def get(self):
         companies = CompanyModel.find_all()
         user_id = get_jwt_identity()
-        print(user_id)
         if user_id:
             return {'companies': [format_company_to_json(x) for x in companies]}, 200
             # map() function returns a list of the results after applying the given function to
